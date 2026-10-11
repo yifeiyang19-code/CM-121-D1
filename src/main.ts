@@ -1,5 +1,5 @@
 import './style.css'
-import { createInitialGameState } from './state'
+import { createInitialGameState, type GameState } from './state'
 import { manualGenerate } from './input'
 
 let state = createInitialGameState();
@@ -28,8 +28,15 @@ if (!button || !energyOutput || !totalEnergyOutput) {
   throw new Error('Missing required elements in the DOM');
 }
 
+function render(state: GameState): void {
+  energyOutput!.textContent = state.energy.toString();
+  totalEnergyOutput!.textContent = state.totalEnergyProduced.toString();
+  
+}
+
+render(state);
+
 button.addEventListener('click', () => {
   state = manualGenerate(state);
-  energyOutput.textContent = state.energy.toString();
-  totalEnergyOutput.textContent = state.totalEnergyProduced.toString();
+  render(state);
 });
