@@ -1,4 +1,8 @@
 import './style.css'
+import { createInitialGameState } from './state'
+import { manualGenerate } from './input'
+
+let state = createInitialGameState();
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <main class="station">
@@ -16,3 +20,16 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </button>
   </main>
 `
+const button = document.querySelector<HTMLButtonElement>('#generate');
+const energyOutput = document.querySelector<HTMLOutputElement>('#energy');
+const totalEnergyOutput = document.querySelector<HTMLOutputElement>('#total-energy');
+
+if (!button || !energyOutput || !totalEnergyOutput) {
+  throw new Error('Missing required elements in the DOM');
+}
+
+button.addEventListener('click', () => {
+  state = manualGenerate(state);
+  energyOutput.textContent = state.energy.toString();
+  totalEnergyOutput.textContent = state.totalEnergyProduced.toString();
+});
