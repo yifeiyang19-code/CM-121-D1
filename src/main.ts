@@ -13,6 +13,8 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
       <h2>Energy Status</h2>
       <p>Stored Energy: <output id="energy">0</output> EU</p>
       <p>Total Produced: <output id="total-energy">0</output> EU</p>
+      <p>Generators: <output id="generators">0</output></p>
+      <p>Production Rate: <output id="production-rate">0</output> EU/s</p>
     </section>
 
     <button id="generate" type="button">
@@ -23,15 +25,18 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 const button = document.querySelector<HTMLButtonElement>('#generate');
 const energyOutput = document.querySelector<HTMLOutputElement>('#energy');
 const totalEnergyOutput = document.querySelector<HTMLOutputElement>('#total-energy');
+const generatorsOutput = document.querySelector<HTMLOutputElement>('#generators');
+const productionRateOutput = document.querySelector<HTMLOutputElement>('#production-rate');
 
-if (!button || !energyOutput || !totalEnergyOutput) {
+if (!button || !energyOutput || !totalEnergyOutput || !generatorsOutput || !productionRateOutput) {
   throw new Error('Missing required elements in the DOM');
 }
 
 function render(state: GameState): void {
   energyOutput!.textContent = state.energy.toString();
   totalEnergyOutput!.textContent = state.totalEnergyProduced.toString();
-  
+  generatorsOutput!.textContent = state.generatorCount.toString()
+  productionRateOutput!.textContent = (state.generatorCount * state.generatorPower).toString();
 }
 
 render(state);
